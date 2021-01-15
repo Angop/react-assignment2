@@ -4,7 +4,6 @@ import Table from './Table'
 import Form from './Form'
 
 
-
 class App extends Component {
 	  state = {
         characters: []
@@ -24,13 +23,30 @@ class App extends Component {
    }
 
    removeCharacter = index => {
-        const { characters } = this.state
+      const { characters } = this.state
+      let character = characters[index];
+      console.log(character);
 
-        this.setState({
-               characters: characters.filter((character, i) => {
-                        return i !== index
-                      }),
-             })
+      if(this.makeDeleteCall(character)){
+          this.setState({
+              characters: characters.filter((character, i) => {
+                  return i !== index
+              }),
+          })
+      }
+   }
+
+   makeDeleteCall(character){
+      console.log(character);
+      return axios.delete('http://localhost:5000/users', { data: { id: character.id } })
+         .then(function (response) {
+            console.log(response);
+            return response === 200;
+         })
+         .catch(function (error) {
+            console.log(error);
+            return false;
+         });
    }
 
    handleSubmit = character => {
