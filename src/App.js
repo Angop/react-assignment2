@@ -36,6 +36,7 @@ class App extends Component {
    handleSubmit = character => {
       this.makePostCall(character).then( callResult => {
          if (callResult === true) {
+            character = callResult.data;
             this.setState({ characters: [...this.state.characters, character] });
          }
       });
